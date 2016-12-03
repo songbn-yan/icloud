@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en" ng-app="reminder">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="js/angular.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/index.js"></script>
+	<link rel="stylesheet" href="css/index.css">
+</head>
+<body ng-controller="mainCtrl">
+<div class="container">
+    <div class="card">
+        <div class="sanjiao"></div>
+        <div class="out">
+            <card-list>
+                <div class="content">
+                    <div class="input">
+                        <div class="padding {{current.item}}" >
+                            <input type="text" ng-model="current.itemzi" value="{{current.itemzi}}" >
+                        </div>
+                    </div>
+                    <div class="border"></div>
+                    <div class="color-list">颜色列表</div>
+                    <div class="color-box">
+                        <div class="selection-circle {{v.theme}}" ng-repeat="v in circle" date-id="{{v.id}}" ng-click="change(v)">
+                            <div class="color-icon {{v.theme}} "></div>
+                        </div>
+                    </div>
+                    <div class="anniu">
+                        <div class="delete">
+                            <div class="delete-btn" ng-click="shanchu(current.id)" >删除</div>
+                        </div>
+                        <div class="quxiao-wancheng">
+                            <div class="quxiao" ng-click="deletecard()">取消</div>
+                            <div class="line">
+                                <span></span>
+                            </div>
+                            <div class="wancheng" ng-click="deletecard()">完成</div>
+                        </div>
+                    </div>
+                </div>
+                <span class="hengxian"><span></span></span>
+            </card-list>
+
+        </div>
+    </div>
+    <!--左-->
+	<div class="leftbox">
+		<div class="leftHeader">
+			<a href="javascrpt:;">
+				<li class="con-left">
+					<div class="logo"></div>
+					<div class="textBox">
+						<span class="text">提醒事项</span>
+						<div class="botCon"></div>
+					</div>
+				</li>
+			</a>
+			<li class="con-right" ng-click="add()"></li>
+		</div>
+		<!--内容-->
+		<div class="mid">
+			<li class="title">
+				<div class="zhong"></div>
+				<span>已计划</span>
+			</li>
+            <div ng-color-ul>
+                <li  class="item" data-id="{{col.id}}" ng-repeat="col in colors" ng-click="setcurrent(col)">
+                    <div class="itemleft {{col.lei}}  {{col.item}}" ></div>
+                    <div class="itemright"> <span> {{col.itemzi}} </span>
+                        <input type="text" ng-model="col.itemzi" >
+                        <div class="wifi"></div>
+                    </div>
+                </li>
+            </div>
+		</div>
+	</div>
+	<!--右-->
+	<div class="rightbox">
+		<div class="rightHeader">
+			<div class="search">
+				<div class="big"></div>
+				<input type="text" class="sea" placeholder="搜索所有提醒" ng-model="word">
+			</div>
+			<div class="help">
+				<span class="add">登录</span>
+				<div class="bot"></div>
+				<div class="shu"></div>
+				<div class="hel"></div>
+			</div>
+		</div>
+        <div class="brbtop">
+            <div class="list {{current.item}}  {{v.them}}">{{current.itemzi}}</div>
+            <div class="listyou {{current.item}}"  ng-click="cancel()">选项</div>
+        </div>
+
+
+        <div class="list-content">
+            <my-div>
+                <!--<div class="row-divider-top"></div>-->
+                <div class="done-box">
+                    <div class="anniu">
+                        <div class="img"></div>
+                    </div>
+                    <div class="done">已完成：{{count()}}项</div>
+                </div>
+                <ul class="yiwan" >
+                    <li class="{{current.item}}" ng-repeat="v in current.todos|filter:{state:1}" date-id="{{v.id}}">
+                        <div class="button" ng-click="v.state=0">
+                            <div class="tupian"></div>
+                        </div>
+                        <div class="text" >{{v.title}}</div>
+                        <div class="row-divider-top"></div>
+                        <div class="background"></div>
+                        <input type="text" value="ggg">
+                        <div class="delete" ng-click="delete1(v.id)">删除</div>
+                    </li>
+                    <div class="clear"></div>
+                </ul>
+                <ul class="weiwan" >
+                    <li class="{{current.item}}" ng-repeat="v in current.todos|filter:{state:0}" date-id="{{v.id}}">
+                        <div class="delete" ng-click="delete1(v.id)">删除</div>
+                        <div class="button" ng-click="v.state=1">
+                            <div class="tupian" ng-click="v.state=1"></div>
+                        </div>
+                        <div class="text" >{{v.title}}</div>
+                        <div class="row-divider-top"></div>
+                        <div class="background"></div>
+                        <input type="text" value="ggg" ng-model='v.title' ng-keyup="addtodos($event)" >
+                    </li>
+                </ul>
+                <div class="new" ng-click="addtodo()">
+                    <div class="row-divider-top"></div>
+                    <div class="row-divider-bottom"></div>
+                    <div class="zeng" ng-model="item">新项目...</div>
+                </div>
+            </my-div>
+
+        </div>
+
+
+        <!--<div class="brbottom">-->
+            <!--&lt;!&ndash;标题&ndash;&gt;-->
+            <!--<my-div>-->
+
+                <!--&lt;!&ndash;已完成&ndash;&gt;-->
+                <!--<div class="done">-->
+                    <!--<div class="jiantou"></div>-->
+                    <!--<div class="contant">已完成：{{count()}}项</div>-->
+
+                <!--</div>-->
+                <!--<ul class="donelist">-->
+                    <!--<li class="dlitem {{current.item}}" ng-repeat="v in current.todos|filter:{state:1}">-->
+                        <!--<div class="yuanxin" ng-click="v.state=0"></div>-->
+                        <!--<div class="zizi">{{v.title}}<div class="del {{current.item}}" ng-click="delete(v.id)">删除任务</div></div>-->
+                    <!--</li>-->
+                <!--</ul>-->
+
+                <!--&lt;!&ndash;新建的&ndash;&gt;-->
+                <!--<ul class="liebiao">-->
+                    <!--<li class="lbitem {{current.item}}" ng-repeat="v in current.todos|filter:{state:0}">-->
+                        <!--<div class="yuan" ng-click="v.state=1"></div>-->
+                        <!--<div class="zi">{{v.title}}-->
+                            <!--<div class="del {{current.item}}" ng-click="delete(v.id)">删除任务</div>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li class="lbitem addinput">-->
+                        <!--<div class="zi">-->
+                            <!--<input type="text" ng-model="item" ng-keyup="addtodo($event)" placeholder="新项目">-->
+                        <!--</div>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</my-div>-->
+        <!--</div>-->
+
+	</div>
+</div>
+</body>
+</html>
